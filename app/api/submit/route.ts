@@ -11,8 +11,11 @@ export async function POST(request: NextRequest) {
     `submission[q4_q4_textarea2]=${encode(message)}`,
   ].join("&");
 
+  const apiKey = process.env.JOTFORM_API_KEY ?? "e031c082b71313437e17715928524edd";
+  const formId = process.env.JOTFORM_FORM_ID ?? "261307600061039";
+
   const res = await fetch(
-    `https://api.jotform.com/form/${process.env.JOTFORM_FORM_ID}/submissions?apiKey=${process.env.JOTFORM_API_KEY}`,
+    `https://api.jotform.com/form/${formId}/submissions?apiKey=${apiKey}`,
     {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
