@@ -26,12 +26,12 @@ export default function Home() {
         <img
           src="/on-repeat-logo.png"
           alt="On Repeat"
-          style={{ width: "100%", maxWidth: "750px", objectFit: "contain" }}
+          style={{ width: "100%", maxWidth: "650px", objectFit: "contain" }}
         />
         <img
           src="/on-repeat-splash.jpg"
           alt="On Repeat Splash"
-          style={{ width: "100%", objectFit: "contain", borderBottom: "2px solid rgba(255, 255, 255, 0.25)" }}
+          style={{ width: "100%", maxWidth: "1200px", objectFit: "contain", borderBottom: "2px solid rgba(255, 255, 255, 0.25)" }}
         />
         <h2
           style={{
