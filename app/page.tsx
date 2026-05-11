@@ -62,7 +62,7 @@ export default function Home() {
             cursor: "pointer",
           }}
         >
-          SIGN UP FOR THE DROP
+          SIGN UP FOR DROPS
         </button>
       </div>
     </main>
