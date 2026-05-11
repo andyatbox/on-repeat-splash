@@ -5,10 +5,10 @@ export async function POST(request: NextRequest) {
 
   const encode = (v: string) => encodeURIComponent(v);
   const body = [
-    `submission[q2_fullname0][first]=${encode(firstName)}`,
-    `submission[q2_fullname0][last]=${encode(lastName)}`,
-    `submission[q3_email1]=${encode(email)}`,
-    `submission[q4_textarea2]=${encode(message)}`,
+    `submission[2][first]=${encode(firstName)}`,
+    `submission[2][last]=${encode(lastName)}`,
+    `submission[3]=${encode(email)}`,
+    `submission[4]=${encode(message)}`,
   ].join("&");
 
   const apiKey = process.env.JOTFORM_API_KEY ?? "e031c082b71313437e17715928524edd";
