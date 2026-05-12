@@ -116,7 +116,7 @@ export default function Home() {
           style={{
             position: "fixed",
             inset: 0,
-            backgroundColor: "rgba(0, 0, 0, 0.55)",
+            backgroundColor: "transparent",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -127,9 +127,9 @@ export default function Home() {
           <div
             onClick={(e) => e.stopPropagation()}
             style={{
-              backgroundColor: "rgba(255, 255, 255, 0.65)",
-              backdropFilter: "blur(20px)",
-              WebkitBackdropFilter: "blur(20px)",
+              backgroundColor: "rgba(255, 255, 255, 0.4)",
+              backdropFilter: "blur(5px)",
+              WebkitBackdropFilter: "blur(5px)",
               borderRadius: "16px",
               padding: "48px",
               width: "100%",
