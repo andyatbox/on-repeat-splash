@@ -63,7 +63,7 @@ export default function Home() {
           <img
             src="/On-Repeat_Splash-Logo.svg"
             alt="On Repeat"
-            style={{ width: "100%", maxWidth: "650px", objectFit: "contain" }}
+            style={{ width: "100%", maxWidth: "525px", objectFit: "contain" }}
           />
           <img
             src="/on-repeat-splash.jpg"
