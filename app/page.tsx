@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import emailjs from "@emailjs/browser";
 
 type Status = "idle" | "loading" | "success" | "error";
 
@@ -24,12 +25,17 @@ export default function Home() {
     e.preventDefault();
     setStatus("loading");
     try {
-      const res = await fetch("/api/submit", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
-      setStatus(res.ok ? "success" : "error");
+      await emailjs.send(
+        "service_xqz8z2d",
+        "template_9kwne0t",
+        {
+          from_name: `${form.firstName} ${form.lastName}`,
+          from_email: form.email,
+          message: form.message,
+        },
+        "h_9HXkvVv0HUqhAaz"
+      );
+      setStatus("success");
     } catch {
       setStatus("error");
     }
