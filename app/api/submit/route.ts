@@ -1,33 +1,28 @@
 import { NextRequest, NextResponse } from "next/server";
+import { Resend } from "resend";
+
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+const RECIPIENTS = ["andy@box.biz", "lindsey.port@gmail.com", "sarah.milo@gmail.com"];
 
 export async function POST(request: NextRequest) {
   const { firstName, lastName, email, message } = await request.json();
 
-  const encode = (v: string) => encodeURIComponent(v);
-  const body = [
-    `submission[2][first]=${encode(firstName)}`,
-    `submission[2][last]=${encode(lastName)}`,
-    `submission[3]=${encode(email)}`,
-    `submission[4]=${encode(message)}`,
-  ].join("&");
+  const { error } = await resend.emails.send({
+    from: "On Repeat <noreply@box.biz>",
+    to: RECIPIENTS,
+    replyTo: email,
+    subject: `New sign-up: ${firstName} ${lastName}`,
+    html: `
+      <p><strong>Name:</strong> ${firstName} ${lastName}</p>
+      <p><strong>Email:</strong> ${email}</p>
+      <p><strong>Message:</strong><br>${message.replace(/\n/g, "<br>")}</p>
+    `,
+  });
 
-  const apiKey = process.env.JOTFORM_API_KEY ?? "e031c082b71313437e17715928524edd";
-  const formId = process.env.JOTFORM_FORM_ID ?? "261307600061039";
-
-  const res = await fetch(
-    `https://api.jotform.com/form/${formId}/submissions?apiKey=${apiKey}`,
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body,
-    }
-  );
-
-  const data = await res.json();
-
-  if (data.responseCode === 200 || data.responseCode === 201) {
-    return NextResponse.json({ success: true });
+  if (error) {
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 
-  return NextResponse.json({ success: false, error: data.message }, { status: 500 });
+  return NextResponse.json({ success: true });
 }
