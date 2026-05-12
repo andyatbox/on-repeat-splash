@@ -87,7 +87,7 @@ export default function Home() {
               textAlign: "center",
             }}
           >
-            CATCHY HAND CREAMS
+            COLLECTIBLE HAND CREAMS
           </h2>
           <button
             onClick={() => setOpen(true)}
