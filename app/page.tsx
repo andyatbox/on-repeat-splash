@@ -127,7 +127,9 @@ export default function Home() {
           <div
             onClick={(e) => e.stopPropagation()}
             style={{
-              backgroundColor: "#fff",
+              backgroundColor: "rgba(255, 255, 255, 0.65)",
+              backdropFilter: "blur(20px)",
+              WebkitBackdropFilter: "blur(20px)",
               borderRadius: "16px",
               padding: "48px",
               width: "100%",
