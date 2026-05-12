@@ -61,7 +61,7 @@ export default function Home() {
           }}
         >
           <img
-            src="/on-repeat-logo.png"
+            src="/On-Repeat_Splash-Logo.svg"
             alt="On Repeat"
             style={{ width: "100%", maxWidth: "650px", objectFit: "contain" }}
           />
@@ -81,7 +81,7 @@ export default function Home() {
               fontFamily: "sans-serif",
               fontSize: "1.5rem",
               letterSpacing: "0.25em",
-              lineHeight: "2",
+              lineHeight: "1.2",
               color: "#333333",
               fontWeight: 600,
               textAlign: "center",
