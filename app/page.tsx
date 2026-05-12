@@ -66,7 +66,7 @@ export default function Home() {
             style={{ width: "100%", maxWidth: "525px", objectFit: "contain" }}
           />
           <img
-            src="/on-repeat-splash.jpg"
+            src="/on-repeat-splash-2.jpg"
             alt="On Repeat Splash"
             style={{
               width: "100%",
