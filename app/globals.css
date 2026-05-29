@@ -9,4 +9,9 @@ html, body {
   height: 100%;
   background-color: #dbada0;
   overflow: auto;
+  text-shadow: 0 1px rgba(255, 255, 255, 0.5);
+}
+
+button {
+  text-shadow: none;
 }
