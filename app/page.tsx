@@ -76,7 +76,7 @@ export default function Home() {
             alt="On Repeat Splash"
             style={{
               width: "100%",
-              maxWidth: "1200px",
+              maxWidth: "900px",
               objectFit: "contain",
               borderBottom: "2px solid rgba(255, 255, 255, 0.25)",
             }}
@@ -84,12 +84,12 @@ export default function Home() {
           <h2
             style={{
               marginTop: "48px",
-              fontFamily: "sans-serif",
+              fontFamily: "inherit",
               fontSize: "1.5rem",
               letterSpacing: "0.25em",
               lineHeight: "1.2",
               color: "#333333",
-              fontWeight: 600,
+              fontWeight: 500,
               textAlign: "center",
             }}
           >
@@ -101,10 +101,10 @@ export default function Home() {
               marginTop: "24px",
               backgroundColor: "#333333",
               color: "#dbada0",
-              fontFamily: "sans-serif",
+              fontFamily: "inherit",
               fontSize: "0.85rem",
               letterSpacing: "0.1em",
-              fontWeight: 600,
+              fontWeight: 500,
               border: "none",
               borderRadius: "999px",
               padding: "14px 32px",
@@ -113,6 +113,88 @@ export default function Home() {
           >
             SIGN UP FOR DROPS
           </button>
+
+          {/* Product description */}
+          <div
+            style={{
+              width: "100%",
+              maxWidth: "900px",
+              marginTop: "64px",
+            }}
+          >
+            <h1
+              style={{
+                fontFamily: "inherit",
+                fontSize: "clamp(1.6rem, 3.5vw, 2.4rem)",
+                fontWeight: 500,
+                lineHeight: 1.2,
+                color: "#333333",
+                marginBottom: "32px",
+                letterSpacing: "-0.01em",
+              }}
+            >
+              Meet the hand cream you&apos;ll actually want to use on repeat
+            </h1>
+
+            <p style={bodyTextStyle}>
+              ON REPEAT Hand Cream is a fast-absorbing, deeply nourishing formula designed to soften, smooth, and restore dry hands without ever feeling greasy. Powered by a skin-loving blend of jojoba oil, squalane, shea butter, glycerin, panthenol, and ceramides, it delivers long-lasting hydration while helping support the skin barrier for healthier-looking hands over time.
+            </p>
+
+            <p style={bodyTextStyle}>
+              The texture is rich but weightless — melting seamlessly into skin for a silky, velvety finish that leaves hands feeling moisturized, not sticky. Whether tossed in your bag, kept on your nightstand, or used between meetings, workouts, flights, and coffee runs, ON REPEAT is made for everyday rituals and constant reapplication.
+            </p>
+
+            <p style={bodyTextStyle}>
+              Thoughtfully formulated with effective, barrier-supporting ingredients and without the heavy feel of traditional hand creams, it&apos;s luxury hand care reimagined for modern life.
+            </p>
+
+            <h3 style={subheadStyle}>
+              Hydrating. Smoothing. Addictive in the best way.
+            </h3>
+
+            <div style={{ marginBottom: "40px" }}>
+              <p
+                style={{
+                  fontFamily: "inherit",
+                  fontSize: "0.7rem",
+                  fontWeight: 500,
+                  letterSpacing: "0.2em",
+                  color: "#333333",
+                  marginBottom: "16px",
+                  textTransform: "uppercase",
+                }}
+              >
+                Key Ingredients
+              </p>
+              <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: "10px" }}>
+                {[
+                  "Jojoba Oil + Squalane — help nourish and soften skin",
+                  "Shea Butter — delivers rich moisture and comfort",
+                  "Glycerin + Panthenol — attract and retain hydration",
+                  "Ceramides — help support and strengthen the skin barrier",
+                ].map((item) => (
+                  <li
+                    key={item}
+                    style={{
+                      fontFamily: "inherit",
+                      fontSize: "clamp(0.9rem, 1.5vw, 1rem)",
+                      lineHeight: 1.6,
+                      color: "#333333",
+                      paddingLeft: "20px",
+                      position: "relative",
+                    }}
+                  >
+                    <span style={{ position: "absolute", left: 0 }}>•</span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <h3 style={subheadStyle}>
+              For hands that deserve better than basic.
+            </h3>
+          </div>
         </div>
       </main>
 
@@ -143,7 +225,6 @@ export default function Home() {
               position: "relative",
             }}
           >
-            {/* Close button */}
             <button
               onClick={closeModal}
               style={{
@@ -165,12 +246,12 @@ export default function Home() {
               <div
                 style={{
                   textAlign: "center",
-                  fontFamily: "sans-serif",
+                  fontFamily: "inherit",
                   color: "#333",
                   padding: "24px 0",
                 }}
               >
-                <p style={{ fontSize: "1.5rem", fontWeight: 700, letterSpacing: "0.1em", marginBottom: "12px" }}>
+                <p style={{ fontSize: "1.5rem", fontWeight: 500, letterSpacing: "0.1em", marginBottom: "12px" }}>
                   YOU&apos;RE ON THE LIST
                 </p>
                 <p style={{ fontSize: "0.95rem", color: "#666" }}>
@@ -181,18 +262,17 @@ export default function Home() {
               <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
                 <p
                   style={{
-                    fontFamily: "sans-serif",
+                    fontFamily: "inherit",
                     fontSize: "0.75rem",
                     letterSpacing: "0.2em",
                     color: "#333",
-                    fontWeight: 700,
+                    fontWeight: 500,
                     marginBottom: "8px",
                   }}
                 >
                   SIGN UP FOR DROPS
                 </p>
 
-                {/* Full Name */}
                 <div style={{ display: "flex", gap: "16px" }}>
                   <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: "6px" }}>
                     <label style={labelStyle} htmlFor="first_2">First Name *</label>
@@ -218,7 +298,6 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* Email */}
                 <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
                   <label style={labelStyle} htmlFor="input_3">Email Address *</label>
                   <input
@@ -232,7 +311,6 @@ export default function Home() {
                   />
                 </div>
 
-                {/* Message */}
                 <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
                   <label style={labelStyle} htmlFor="input_4">Your Message *</label>
                   <textarea
@@ -245,7 +323,7 @@ export default function Home() {
                 </div>
 
                 {status === "error" && (
-                  <p style={{ fontFamily: "sans-serif", fontSize: "0.8rem", color: "#c00" }}>
+                  <p style={{ fontFamily: "inherit", fontSize: "0.8rem", color: "#c00" }}>
                     Something went wrong. Please try again.
                   </p>
                 )}
@@ -256,10 +334,10 @@ export default function Home() {
                   style={{
                     backgroundColor: "#333",
                     color: "#dbada0",
-                    fontFamily: "sans-serif",
+                    fontFamily: "inherit",
                     fontSize: "0.85rem",
                     letterSpacing: "0.1em",
-                    fontWeight: 600,
+                    fontWeight: 500,
                     border: "none",
                     borderRadius: "999px",
                     padding: "14px 32px",
@@ -280,15 +358,15 @@ export default function Home() {
 }
 
 const labelStyle: React.CSSProperties = {
-  fontFamily: "sans-serif",
+  fontFamily: "inherit",
   fontSize: "0.75rem",
   letterSpacing: "0.05em",
   color: "#555",
-  fontWeight: 600,
+  fontWeight: 500,
 };
 
 const inputStyle: React.CSSProperties = {
-  fontFamily: "sans-serif",
+  fontFamily: "inherit",
   fontSize: "0.9rem",
   color: "#333",
   border: "1px solid #ddd",
@@ -296,4 +374,22 @@ const inputStyle: React.CSSProperties = {
   padding: "10px 14px",
   outline: "none",
   width: "100%",
+};
+
+const bodyTextStyle: React.CSSProperties = {
+  fontFamily: "inherit",
+  fontSize: "clamp(0.95rem, 1.5vw, 1.05rem)",
+  lineHeight: 1.75,
+  color: "#333333",
+  marginBottom: "24px",
+};
+
+const subheadStyle: React.CSSProperties = {
+  fontFamily: "inherit",
+  fontSize: "clamp(1rem, 2vw, 1.2rem)",
+  fontWeight: 500,
+  color: "#333333",
+  marginBottom: "32px",
+  marginTop: "8px",
+  letterSpacing: "0.02em",
 };
