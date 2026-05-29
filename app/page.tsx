@@ -353,6 +353,27 @@ export default function Home() {
           </div>
         </div>
       )}
+
+      <footer
+        style={{
+          width: "100%",
+          padding: "24px 48px",
+          textAlign: "center",
+          backgroundColor: "#dbada0",
+        }}
+      >
+        <p
+          style={{
+            fontFamily: "inherit",
+            fontSize: "0.7rem",
+            letterSpacing: "0.08em",
+            color: "#333333",
+            opacity: 0.6,
+          }}
+        >
+          &copy;2026 On Repeat Beauty, Inc. All Rights Reserved.
+        </p>
+      </footer>
     </>
   );
 }
