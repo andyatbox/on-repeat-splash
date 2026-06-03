@@ -16,16 +16,19 @@ button {
   text-shadow: none;
 }
 
-.parallax-decor {
-  position: fixed;
-  inset: 0;
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-14px); }
+}
+
+.product-float {
   pointer-events: none;
-  z-index: 2;
-  overflow: hidden;
+  position: absolute;
+  animation: float 4.5s ease-in-out infinite;
 }
 
 @media (max-width: 960px) {
-  .parallax-decor {
+  .product-float {
     display: none;
   }
 }

@@ -78,16 +78,42 @@ export default function Home() {
             alt="On Repeat"
             style={{ width: "100%", maxWidth: "525px", objectFit: "contain" }}
           />
-          <img
-            src="/on-repeat-splash-2.jpg"
-            alt="On Repeat Splash"
-            style={{
-              width: "100%",
-              maxWidth: "900px",
-              objectFit: "contain",
-              borderBottom: "2px solid rgba(255, 255, 255, 0.25)",
-            }}
-          />
+          <div style={{ position: "relative", width: "100%", maxWidth: "900px" }}>
+            <img
+              src="/on-repeat-splash-2.jpg"
+              alt="On Repeat Splash"
+              style={{
+                width: "100%",
+                display: "block",
+                objectFit: "contain",
+                borderBottom: "2px solid rgba(255, 255, 255, 0.25)",
+              }}
+            />
+            {/* Red — overlaps left side of hero image */}
+            <div
+              className="product-float"
+              style={{
+                left: "-75px",
+                top: "28%",
+                width: "190px",
+                zIndex: 3,
+                animationDuration: "4.8s",
+                animationDelay: "0s",
+              }}
+            >
+              <img
+                src="/red.png"
+                alt=""
+                aria-hidden="true"
+                style={{
+                  width: "100%",
+                  opacity: 0.93,
+                  transform: `translateY(${-scrollY * 0.12}px)`,
+                  willChange: "transform",
+                }}
+              />
+            </div>
+          </div>
           <h2
             style={{
               marginTop: "48px",
@@ -155,9 +181,35 @@ export default function Home() {
               Thoughtfully formulated with effective, barrier-supporting ingredients and without the heavy feel of traditional hand creams, it&apos;s luxury hand care reimagined for modern life.
             </p>
 
-            <h3 style={subheadStyle}>
-              Hydrating. Smoothing. Addictive in the best way.
-            </h3>
+            {/* Yellow — floats right of this subhead */}
+            <div style={{ position: "relative" }}>
+              <h3 style={subheadStyle}>
+                Hydrating. Smoothing. Addictive in the best way.
+              </h3>
+              <div
+                className="product-float"
+                style={{
+                  right: "-95px",
+                  top: "-24px",
+                  width: "160px",
+                  zIndex: 1,
+                  animationDuration: "5.2s",
+                  animationDelay: "1s",
+                }}
+              >
+                <img
+                  src="/yellow.png"
+                  alt=""
+                  aria-hidden="true"
+                  style={{
+                    width: "100%",
+                    opacity: 0.9,
+                    transform: `translateY(${-scrollY * 0.09}px)`,
+                    willChange: "transform",
+                  }}
+                />
+              </div>
+            </div>
 
             <div style={{ marginBottom: "40px" }}>
               <p
@@ -361,47 +413,27 @@ export default function Home() {
         </div>
       )}
 
-      {/* Parallax product decorations — hidden below 960px */}
-      <div className="parallax-decor">
-        <img
-          src="/red.png"
-          alt=""
-          aria-hidden="true"
-          style={{
-            position: "absolute",
-            right: "-55px",
-            top: "18%",
-            width: "clamp(100px, 9vw, 155px)",
-            opacity: 0.88,
-            transform: `translateY(${scrollY * -0.1}px)`,
-            willChange: "transform",
-          }}
-        />
-        <img
-          src="/yellow.png"
-          alt=""
-          aria-hidden="true"
-          style={{
-            position: "absolute",
-            left: "-48px",
-            top: "48%",
-            width: "clamp(95px, 8.5vw, 145px)",
-            opacity: 0.88,
-            transform: `translateY(${scrollY * -0.07}px)`,
-            willChange: "transform",
-          }}
-        />
+      {/* Blue — fixed to right edge, partially cropped */}
+      <div
+        className="product-float"
+        style={{
+          position: "fixed",
+          right: "-52px",
+          top: "56%",
+          width: "138px",
+          zIndex: 2,
+          animationDuration: "4.2s",
+          animationDelay: "0.5s",
+        }}
+      >
         <img
           src="/blue.png"
           alt=""
           aria-hidden="true"
           style={{
-            position: "absolute",
-            right: "-45px",
-            top: "72%",
-            width: "clamp(100px, 9vw, 150px)",
+            width: "100%",
             opacity: 0.88,
-            transform: `translateY(${scrollY * -0.13}px)`,
+            transform: `translateY(${-scrollY * 0.07}px)`,
             willChange: "transform",
           }}
         />
