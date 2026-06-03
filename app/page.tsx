@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import emailjs from "@emailjs/browser";
 
 type Status = "idle" | "loading" | "success" | "error";
 
 export default function Home() {
+  const [scrollY, setScrollY] = useState(0);
   const [open, setOpen] = useState(false);
   const [status, setStatus] = useState<Status>("idle");
   const [form, setForm] = useState({
@@ -14,6 +15,12 @@ export default function Home() {
     email: "",
     message: "",
   });
+
+  useEffect(() => {
+    const onScroll = () => setScrollY(window.scrollY);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const closeModal = () => {
     setOpen(false);
@@ -353,6 +360,52 @@ export default function Home() {
           </div>
         </div>
       )}
+
+      {/* Parallax product decorations — hidden below 960px */}
+      <div className="parallax-decor">
+        <img
+          src="/red.png"
+          alt=""
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            right: "-55px",
+            top: "18%",
+            width: "clamp(100px, 9vw, 155px)",
+            opacity: 0.88,
+            transform: `translateY(${scrollY * -0.1}px)`,
+            willChange: "transform",
+          }}
+        />
+        <img
+          src="/yellow.png"
+          alt=""
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            left: "-48px",
+            top: "48%",
+            width: "clamp(95px, 8.5vw, 145px)",
+            opacity: 0.88,
+            transform: `translateY(${scrollY * -0.07}px)`,
+            willChange: "transform",
+          }}
+        />
+        <img
+          src="/blue.png"
+          alt=""
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            right: "-45px",
+            top: "72%",
+            width: "clamp(100px, 9vw, 150px)",
+            opacity: 0.88,
+            transform: `translateY(${scrollY * -0.13}px)`,
+            willChange: "transform",
+          }}
+        />
+      </div>
 
       <footer
         style={{
