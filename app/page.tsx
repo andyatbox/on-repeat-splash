@@ -2,8 +2,6 @@
 
 import { useState, useEffect, useRef } from "react";
 
-type Status = "idle" | "loading" | "success" | "error";
-
 // ── Scroll-reveal wrapper ──────────────────────────────────────────────────
 function Reveal({
   children,
@@ -59,32 +57,12 @@ const INGREDIENTS: [string, string][] = [
 // ── Page ───────────────────────────────────────────────────────────────────
 export default function Home() {
   const [scrolled, setScrolled] = useState(false);
-  const [status, setStatus] = useState<Status>("idle");
-  const [form, setForm] = useState({ firstName: "", lastName: "", email: "", message: "" });
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 30);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setStatus("loading");
-    try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
-      if (!res.ok) throw new Error("Failed");
-      setStatus("success");
-      setForm({ firstName: "", lastName: "", email: "", message: "" });
-    } catch (err) {
-      console.error("Submit error:", err);
-      setStatus("error");
-    }
-  };
 
   return (
     <>
@@ -234,60 +212,13 @@ export default function Home() {
         <Reveal delay={0.1}>
           <p className="sub">Be first to know when On Repeat drops. No spam — just the good stuff.</p>
         </Reveal>
-        <Reveal delay={0.1}>
-          <form className="su-form" onSubmit={handleSubmit} noValidate>
-            <div className="su-row">
-              <div className="su-line">
-                <input
-                  type="text"
-                  placeholder="First name"
-                  required
-                  value={form.firstName}
-                  onChange={(e) => setForm({ ...form, firstName: e.target.value })}
-                />
-              </div>
-              <div className="su-line">
-                <input
-                  type="text"
-                  placeholder="Last name"
-                  required
-                  value={form.lastName}
-                  onChange={(e) => setForm({ ...form, lastName: e.target.value })}
-                />
-              </div>
-            </div>
-            <div className="su-line">
-              <input
-                type="email"
-                placeholder="Email address"
-                required
-                value={form.email}
-                onChange={(e) => setForm({ ...form, email: e.target.value })}
-              />
-            </div>
-            <div className="su-line">
-              <textarea
-                placeholder="Your message (optional)"
-                rows={3}
-                value={form.message}
-                onChange={(e) => setForm({ ...form, message: e.target.value })}
-              />
-            </div>
-            <div style={{ marginTop: 6, textAlign: "center" }}>
-              {status === "success" ? (
-                <p className="su-msg">You&apos;re on the list — see you at the drop. ♥</p>
-              ) : (
-                <>
-                  <button type="submit" className="su-submit" disabled={status === "loading"}>
-                    {status === "loading" ? "Sending…" : "Notify me"} <span>↗</span>
-                  </button>
-                  {status === "error" && (
-                    <p className="su-msg error">Something went wrong. Please try again.</p>
-                  )}
-                </>
-              )}
-            </div>
-          </form>
+        <Reveal delay={0.1} style={{ marginTop: "clamp(34px,5vw,52px)" }}>
+          <a
+            href="mailto:port@onrepeatbeauty.com?subject=On%20Repeat%20%E2%80%94%20Sign%20Me%20Up"
+            className="su-submit"
+          >
+            Notify me <span>↗</span>
+          </a>
         </Reveal>
       </section>
 
