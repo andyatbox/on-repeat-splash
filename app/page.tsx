@@ -58,6 +58,12 @@ const INGREDIENTS: [string, string][] = [
 export default function Home() {
   const [scrolled, setScrolled] = useState(false);
 
+  const handleNotify = () => {
+    const u = "port";
+    const d = "onrepeatbeauty" + ".com";
+    window.location.href = `mailto:${u}@${d}?subject=Notify%20me%20of%20drops`;
+  };
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 30);
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -213,12 +219,9 @@ export default function Home() {
           <p className="sub">Be first to know when On Repeat drops. No spam — just the good stuff.</p>
         </Reveal>
         <Reveal delay={0.1} style={{ marginTop: "clamp(34px,5vw,52px)" }}>
-          <a
-            href="mailto:port@onrepeatbeauty.com?subject=On%20Repeat%20%E2%80%94%20Sign%20Me%20Up"
-            className="su-submit"
-          >
+          <button onClick={handleNotify} className="su-submit">
             Notify me <span>↗</span>
-          </a>
+          </button>
         </Reveal>
       </section>
 
