@@ -181,6 +181,14 @@ img { display: block; max-width: 100%; }
   text-shadow: 0 2px 30px rgba(58,42,62,.4);
 }
 .life .life-copy .cap { color: rgba(248,243,234,.82); margin-bottom: 18px; display: block; }
+.life-vinyl {
+  position: absolute;
+  right: var(--pad);
+  bottom: clamp(30px, 5vw, 60px);
+  width: clamp(110px, 15vw, 175px);
+  filter: drop-shadow(0 12px 28px rgba(33,27,23,.3));
+  z-index: 1;
+}
 
 /* ── Statement ────────────────────────────────── */
 .stmt { background: var(--plum); color: var(--paper); padding: clamp(72px, 11vw, 150px) var(--pad); }
@@ -219,6 +227,14 @@ img { display: block; max-width: 100%; }
 /* ── Four Vibes ───────────────────────────────── */
 .shades { background: var(--cream); padding: clamp(64px, 9vw, 130px) var(--pad) clamp(80px, 11vw, 150px); text-align: center; }
 .shades h2 { font-weight: 800; letter-spacing: -.045em; font-size: clamp(40px, 8vw, 120px); line-height: .86; }
+.shades h2 em {
+  font-style: normal;
+  background: var(--butter);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  padding: 0 .1em;
+  margin-left: -.1em;
+}
 .shades .sub { margin: 20px auto 0; max-width: 36ch; color: var(--ink-soft); font-size: clamp(15px, 1.4vw, 19px); font-weight: 500; }
 .shades-img { margin: clamp(36px, 6vw, 70px) auto 0; max-width: 1000px; }
 .shade-names { display: flex; justify-content: center; gap: clamp(20px, 6vw, 90px); margin-top: 34px; flex-wrap: wrap; }

@@ -139,7 +139,6 @@ export default function Home() {
             <img src="/images/prod-hero-1.png" alt="On Repeat hand cream" className="prod-main" />
             <img src="/images/prod-hero-2.png" alt="On Repeat hand cream angled view" className="prod-angle" />
           </div>
-          <img src="/images/vinyl.png" alt="" aria-hidden="true" className="hero-badge spin" />
         </Reveal>
       </header>
 
@@ -163,9 +162,10 @@ export default function Home() {
           className="life-img"
         />
         <div className="scrim" />
+        <img src="/images/vinyl.png" alt="" aria-hidden="true" className="life-vinyl spin" />
         <div className="life-copy">
           <Reveal>
-            <span className="cap">Sun&apos;s out</span>
+            <span className="cap">Made for repeated use</span>
             <h2>Made for all your moments.</h2>
           </Reveal>
         </div>
@@ -215,7 +215,7 @@ export default function Home() {
 
       {/* ── FOUR VIBES ──────────────────────────────────────────── */}
       <section className="shades">
-        <Reveal><h2>FOUR<br />VIBES.</h2></Reveal>
+        <Reveal><h2>OUR<br /><em>VIBES.</em></h2></Reveal>
         <Reveal delay={0.1}>
           <p className="sub">One little record, four covers. Pick your mood.</p>
         </Reveal>
