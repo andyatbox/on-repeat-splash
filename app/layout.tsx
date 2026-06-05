@@ -1,15 +1,17 @@
 import type { Metadata } from "next";
-import { Roboto } from "next/font/google";
+import { DM_Mono } from "next/font/google";
 import "./globals.css";
 
-const roboto = Roboto({
-  weight: ["400", "500", "700"],
+const dmMono = DM_Mono({
+  weight: ["400", "500"],
   subsets: ["latin"],
+  variable: "--font-dm-mono",
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "On Repeat",
+  title: "On Repeat — Hand Cream",
+  description: "The hand cream you'll use on repeat. Fast-absorbing, deeply nourishing, never greasy.",
   icons: {
     icon: [
       { url: "/favicon.ico" },
@@ -21,14 +23,10 @@ export const metadata: Metadata = {
   manifest: "/site.webmanifest",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={roboto.className}>{children}</body>
+      <body className={dmMono.variable}>{children}</body>
     </html>
   );
 }

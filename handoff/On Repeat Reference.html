@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ON REPEAT — Hand Cream</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --cream:#F2EBDD;
+  --paper:#F8F3EA;
+  --ink:#211B17;
+  --ink-soft:#6a6157;
+  --plum:#3A2A3E;           /* the one dark moment — deep aubergine, not black */
+  --plum-soft:#5a4760;
+
+  --coral:#F47D6E;
+  --mint:#7FD2C4;
+  --butter:#EDE08A;
+  --cloud:#EDEAE3;
+
+  --sans:"Helvetica Neue",Helvetica,Arial,sans-serif;
+  --mono:"DM Mono",ui-monospace,Menlo,Consolas,monospace;
+  --pad:clamp(22px,6vw,96px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--cream);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden;line-height:1.06}
+::selection{background:var(--ink);color:var(--butter)}
+img{display:block;max-width:100%}
+.mono{font-family:var(--mono)}
+.cap{font-family:var(--mono);font-size:clamp(11px,1vw,13px);letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft)}
+
+/* reveal */
+.js .reveal{opacity:0;transform:translateY(30px);transition:opacity 1s cubic-bezier(.16,1,.3,1),transform 1s cubic-bezier(.16,1,.3,1)}
+.js .reveal.in{opacity:1 !important;transform:none !important}
+.js .reveal.d1{transition-delay:.1s}
+.js .reveal.d2{transition-delay:.2s}
+.js .reveal.d3{transition-delay:.3s}
+@media (prefers-reduced-motion: reduce){.js .reveal{opacity:1!important;transform:none!important;transition:none}html{scroll-behavior:auto}}
+
+/* spinning vinyl */
+@keyframes spin{to{transform:rotate(360deg)}}
+.spin{animation:spin 7s linear infinite}
+@media (prefers-reduced-motion: reduce){.spin{animation:none}}
+
+/* nav */
+.nav{position:fixed;top:0;left:0;right:0;z-index:40;display:flex;align-items:center;justify-content:space-between;
+  padding:20px var(--pad);transition:padding .35s ease, background .35s ease;}
+.nav.solid{background:color-mix(in srgb, var(--cream) 80%, transparent);backdrop-filter:blur(10px);padding:13px var(--pad)}
+.nav .wm{width:clamp(200px,34vw,500px);height:auto;transition:width .4s cubic-bezier(.16,1,.3,1)}
+.nav .pill{font-family:var(--mono);font-size:clamp(11px,1.1vw,13px);letter-spacing:.06em;text-transform:uppercase;
+  background:var(--ink);color:var(--cream);padding:11px 20px;border-radius:40px;white-space:nowrap;
+  transition:transform .22s ease, background .22s ease;cursor:pointer}
+.nav .pill:hover{transform:translateY(-2px);background:var(--plum)}
+
+/* hero */
+.hero{min-height:100svh;padding:clamp(110px,16vh,180px) var(--pad) clamp(40px,7vh,80px);
+  display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(30px,5vw,72px);align-items:center}
+.hero-l .eyebrow{display:flex;align-items:center;gap:14px;margin-bottom:30px}
+.hero-l .eyebrow img{height:30px;width:30px}
+.hero h1{font-weight:800;letter-spacing:-.045em;line-height:.94;font-size:clamp(38px,6vw,82px)}
+.hero h1 em{font-style:normal;background:var(--butter);box-decoration-break:clone;-webkit-box-decoration-break:clone;padding:0 .1em;margin-left:-.1em}
+.hero .lead{margin-top:30px;max-width:34ch;font-size:clamp(16px,1.5vw,20px);line-height:1.45;color:var(--ink-soft);font-weight:500}
+.hero .note{margin-top:34px}
+.hero-r{position:relative;justify-self:end;width:100%;max-width:520px}
+.prod-stack{position:relative;width:100%;padding-bottom:14%}
+.prod-main{display:block;width:82%;margin:0 auto;filter:drop-shadow(0 30px 90px rgba(200,110,160,.32))}
+.prod-angle{position:absolute;right:-4%;bottom:-14%;width:46%;filter:drop-shadow(0 18px 50px rgba(200,110,160,.26))}
+.hero-r .badge{position:absolute;left:-28px;bottom:-24px;width:clamp(80px,11vw,130px);height:auto;filter:drop-shadow(0 12px 28px rgba(33,27,23,.22))}
+@media(max-width:900px){.hero{grid-template-columns:1fr;gap:40px}.hero-r{order:2;max-width:460px;justify-self:start}}
+
+/* marquee */
+.marquee{background:var(--butter);color:var(--ink);overflow:hidden;padding:16px 0}
+.mq{display:flex;width:max-content;animation:mqL 32s linear infinite}
+@keyframes mqL{to{transform:translateX(-50%)}}
+.mq span{font-weight:700;letter-spacing:-.01em;font-size:clamp(15px,2.1vw,30px);padding:0 .45em;display:flex;align-items:center;gap:.5em;white-space:nowrap}
+.mq span i{font-style:normal;font-weight:400;opacity:.6}
+.mq span::after{content:"";width:.32em;height:.32em;border-radius:50%;background:var(--ink);display:inline-block;margin-left:.45em}
+@media (prefers-reduced-motion: reduce){.mq{animation:none}}
+
+/* statement — the dark moment */
+.stmt{background:var(--plum);color:var(--paper);padding:clamp(72px,11vw,150px) var(--pad)}
+.stmt-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(34px,6vw,90px);align-items:center}
+.stmt h2{font-weight:800;letter-spacing:-.04em;line-height:.95;font-size:clamp(34px,5.6vw,80px)}
+.stmt h2 .u{color:var(--coral)}
+.stmt p{margin-top:26px;max-width:42ch;font-size:clamp(15px,1.4vw,19px);line-height:1.55;color:rgba(248,243,234,.7);font-weight:500}
+.stmt .ingline{margin-top:40px;display:flex;flex-wrap:wrap;gap:12px 26px}
+.stmt .ingline span{font-family:var(--mono);font-size:13px;letter-spacing:.04em;color:rgba(248,243,234,.85);white-space:nowrap}
+.stmt-r{position:relative}
+.stmt-r img{width:100%;border-radius:20px;aspect-ratio:4/5;object-fit:cover}
+@media(max-width:880px){.stmt-grid{grid-template-columns:1fr;gap:40px}.stmt-r{order:-1;max-width:440px}}
+
+/* gallery */
+.gallery{padding:clamp(64px,9vw,130px) var(--pad)}
+.gal-h{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:clamp(32px,5vw,60px)}
+.gal-h h2{font-weight:800;letter-spacing:-.04em;font-size:clamp(32px,5.2vw,72px);line-height:.92}
+.gal-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:clamp(12px,1.6vw,22px)}
+.gal-grid figure{overflow:hidden;border-radius:18px;background:var(--paper)}
+.gal-grid img{width:100%;height:100%;object-fit:cover;transition:transform .8s cubic-bezier(.16,1,.3,1)}
+.gal-grid figure:hover img{transform:scale(1.05)}
+.g-a{grid-column:span 4;aspect-ratio:16/11}
+.g-b{grid-column:span 2;aspect-ratio:3/4}
+.g-c{grid-column:span 2;aspect-ratio:3/4}
+.g-d{grid-column:span 4;aspect-ratio:16/11}
+@media(max-width:760px){.gal-grid{grid-template-columns:1fr 1fr}.g-a,.g-b,.g-c,.g-d{grid-column:span 1;aspect-ratio:1/1}}
+
+/* lifestyle full-bleed mood banner */
+.life{position:relative;height:clamp(440px,82vh,800px);overflow:hidden}
+.life img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 38%}
+.life .scrim{position:absolute;inset:0;background:linear-gradient(to top,rgba(58,42,62,.62) 0%,rgba(58,42,62,.12) 40%,rgba(58,42,62,0) 70%)}
+.life .copy{position:absolute;left:var(--pad);right:var(--pad);bottom:clamp(34px,6vw,72px);color:var(--paper)}
+.life .copy h2{font-weight:800;letter-spacing:-.04em;line-height:.95;font-size:clamp(32px,5.6vw,78px);max-width:18ch;text-shadow:0 2px 30px rgba(58,42,62,.4)}
+.life .copy .cap{color:rgba(248,243,234,.82);margin-bottom:18px;display:block}
+
+/* colorways */
+.shades{padding:clamp(64px,9vw,130px) var(--pad) clamp(80px,11vw,150px);text-align:center}
+.shades h2{font-weight:800;letter-spacing:-.045em;font-size:clamp(40px,8vw,120px);line-height:.86}
+.shades .sub{margin:20px auto 0;max-width:36ch;color:var(--ink-soft);font-size:clamp(15px,1.4vw,19px);font-weight:500}
+.shades-img{margin:clamp(36px,6vw,70px) auto 0;max-width:1000px}
+.shade-names{display:flex;justify-content:center;gap:clamp(20px,6vw,90px);margin-top:34px;flex-wrap:wrap}
+.shade-names div{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft)}
+.dot{width:13px;height:13px;border-radius:50%}
+
+/* signup */
+.signup{padding:clamp(70px,11vw,150px) var(--pad);text-align:center}
+.signup h2{font-weight:800;letter-spacing:-.045em;font-size:clamp(40px,7vw,96px);line-height:.88}
+.signup h2 em{font-style:normal;background:var(--mint);box-decoration-break:clone;-webkit-box-decoration-break:clone;padding:0 .1em}
+.signup .sub{margin:20px auto 0;max-width:34ch;color:var(--ink-soft);font-size:clamp(15px,1.4vw,19px);font-weight:500}
+.su-form{margin:clamp(34px,5vw,52px) auto 0;max-width:540px;width:100%;text-align:left}
+.su-row{display:flex;gap:26px}
+.su-row .su-line{flex:1}
+.su-line{border-bottom:2px solid rgba(33,27,23,.35);margin-bottom:22px}
+.su-line input,.su-line textarea{width:100%;background:transparent;border:none;outline:none;font-family:var(--sans);font-weight:600;font-size:clamp(16px,1.8vw,21px);padding:12px 2px;color:var(--ink);resize:none;display:block}
+.su-line input::placeholder,.su-line textarea::placeholder{color:rgba(33,27,23,.32)}
+.su-line textarea{min-height:72px}
+.su-submit{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:var(--cream);border:none;border-radius:40px;font-family:var(--mono);font-size:13px;letter-spacing:.05em;text-transform:uppercase;padding:14px 28px;cursor:pointer;transition:transform .2s, background .2s;white-space:nowrap}
+.su-submit:hover{transform:translateY(-2px);background:var(--plum)}
+.su-thanks{min-height:20px;margin-top:18px;font-family:var(--mono);font-size:13px;letter-spacing:.03em;color:var(--ink-soft)}
+
+/* footer */
+footer{background:var(--plum);color:var(--paper);padding:clamp(70px,10vw,120px) var(--pad) 44px;text-align:center}
+footer .fv{width:clamp(80px,11vw,120px);height:auto;margin:0 auto 30px;filter:invert(1)}
+footer .fwm{height:clamp(20px,2.4vw,30px);width:auto;margin:0 auto;filter:invert(1)}
+footer .tag{margin-top:26px;font-size:clamp(16px,1.8vw,22px);font-weight:600;letter-spacing:-.01em}
+footer .meta{margin-top:48px;display:flex;justify-content:center;gap:18px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:rgba(248,243,234,.55)}
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <img class="wm" src="images/logotype.png" alt="On Repeat" />
+  <a class="pill" href="#signup">Sign up for drops</a>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-l">
+    <div class="eyebrow reveal">
+      <img class="spin" src="images/vinyl.png" alt="" />
+      <span class="cap">Collectible Hand Cream</span>
+    </div>
+    <h1 class="reveal d1">The hand cream<br>you'll use<br><em>on repeat.</em></h1>
+    <p class="lead reveal d2">Like the song you can't stop playing — the hand cream you'll reach for again and again. Fast-absorbing, rich, and never greasy.</p>
+    <div class="note reveal d3"><span class="cap">Press play · reapply · repeat</span></div>
+  </div>
+  <div class="hero-r reveal d2">
+    <div class="prod-stack">
+      <img class="prod-main" src="images/prod-hero-1.png" alt="On Repeat hand cream" />
+      <img class="prod-angle" src="images/prod-hero-2.png" alt="On Repeat hand cream angled view" />
+    </div>
+    <img class="badge spin" src="images/vinyl.png" alt="" />
+  </div>
+</header>
+
+<!-- INGREDIENTS TICKER -->
+<div class="marquee" aria-hidden="true">
+  <div class="mq">
+    <span>Jojoba Oil + Squalane <i>— nourish &amp; soften skin</i></span>
+    <span>Shea Butter <i>— rich moisture &amp; comfort</i></span>
+    <span>Glycerin + Panthenol <i>— attract &amp; retain hydration</i></span>
+    <span>Ceramides <i>— strengthen the skin barrier</i></span>
+    <span>Jojoba Oil + Squalane <i>— nourish &amp; soften skin</i></span>
+    <span>Shea Butter <i>— rich moisture &amp; comfort</i></span>
+    <span>Glycerin + Panthenol <i>— attract &amp; retain hydration</i></span>
+    <span>Ceramides <i>— strengthen the skin barrier</i></span>
+  </div>
+</div>
+
+<!-- LIFESTYLE MOOD BANNER -->
+<section class="life">
+  <img src="images/lifestyle-hero.jpg" alt="Golden-hour poolside party, dancing in the sun" />
+  <div class="scrim"></div>
+  <div class="copy reveal">
+    <span class="cap">Sun's out</span>
+    <h2>Made for all your moments.</h2>
+  </div>
+</section>
+
+<!-- STATEMENT (dark) -->
+<section class="stmt">
+  <div class="stmt-grid">
+    <div>
+      <h2 class="reveal">Rich, but <span class="u">weightless.</span></h2>
+      <p class="reveal d1">It melts in and disappears — silky finish, never greasy. Tossed in a bag or left on the nightstand, it's the one on heavy rotation.</p>
+    </div>
+    <div class="stmt-r reveal d1">
+      <img src="images/prod-4.jpg" alt="On Repeat tucked into a bag, in the wild" />
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery">
+  <div class="gal-h">
+    <h2 class="reveal">In the wild.</h2>
+    <span class="cap reveal d1">Palm-sized</span>
+  </div>
+  <div class="gal-grid">
+    <figure class="g-a reveal"><img src="images/prod-3.jpg" alt="Held in hand against river rocks" /></figure>
+    <figure class="g-b reveal d1"><img src="images/prod-1.jpg" alt="On Repeat on a wood board" /></figure>
+    <figure class="g-c reveal"><img src="images/prod-2.jpg" alt="Top view of On Repeat" /></figure>
+    <figure class="g-d reveal d1"><img src="images/prod-0.jpg" alt="Held against the sky" /></figure>
+  </div>
+</section>
+
+<!-- SHADES -->
+<section class="shades">
+  <h2 class="reveal">FOUR<br>VIBES.</h2>
+  <p class="sub reveal d1">One little record, four covers. Pick your mood.</p>
+  <div class="shades-img reveal d1"><img src="images/all-products.png" alt="On Repeat in coral, mint, butter and cloud" /></div>
+  <div class="shade-names reveal d2">
+    <div><span class="dot" style="background:var(--coral)"></span>Coral</div>
+    <div><span class="dot" style="background:var(--mint)"></span>Mint</div>
+    <div><span class="dot" style="background:var(--butter)"></span>Sunset</div>
+    <div><span class="dot" style="background:var(--cloud);outline:1px solid rgba(33,27,23,.18)"></span>Cloud</div>
+  </div>
+</section>
+
+<!-- SIGNUP -->
+<section class="signup" id="signup">
+  <h2 class="reveal">Get on the <em>list.</em></h2>
+  <p class="sub reveal d1">Be first to know when On Repeat drops. No spam — just the good stuff.</p>
+  <form class="su-form reveal d1" id="suForm" novalidate>
+    <div class="su-row">
+      <div class="su-line"><input type="text" name="first_name" placeholder="First name" /></div>
+      <div class="su-line"><input type="text" name="last_name" placeholder="Last name" /></div>
+    </div>
+    <div class="su-line"><input type="email" name="email" id="suEmail" placeholder="Email address" /></div>
+    <div class="su-line"><textarea name="message" placeholder="Your message (optional)" rows="3"></textarea></div>
+    <div style="margin-top:6px;text-align:center">
+      <button class="su-submit" type="submit">Notify me <span>↗</span></button>
+    </div>
+    <div class="su-thanks" id="suThanks"></div>
+  </form>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <img class="fv spin" src="images/vinyl.png" alt="" />
+  <img class="fwm" src="images/logotype.png" alt="On Repeat" />
+  <div class="tag">Hand cream you'll use on repeat.</div>
+  <div class="meta">
+    <span>©2026 On Repeat Beauty, Inc. All Rights Reserved.</span>
+  </div>
+</footer>
+
+<script>
+document.documentElement.classList.remove('no-js');
+document.documentElement.classList.add('js');
+
+var revealEls = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
+var nav = document.getElementById('nav');
+var wm = nav.querySelector('.wm');
+function clampPx(min, vw, max){ return Math.max(min, Math.min(vw/100*window.innerWidth, max)); }
+function frame(){
+  var y = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+  var vh = window.innerHeight;
+  var scrolled = y > 30;
+  nav.classList.toggle('solid', scrolled);
+  wm.style.width = (scrolled ? clampPx(130,16,210) : clampPx(200,34,500)) + 'px';
+  for(var i=revealEls.length-1;i>=0;i--){
+    var el = revealEls[i];
+    var r = el.getBoundingClientRect();
+    if(r.top < vh*0.9 && r.bottom > 0){ el.classList.add('in'); revealEls.splice(i,1); }
+  }
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+
+var suForm = document.getElementById('suForm');
+if(suForm){
+  suForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    var email = document.getElementById('suEmail');
+    var t = document.getElementById('suThanks');
+    if(email.value && email.value.indexOf('@') > 0 && email.value.indexOf('.') > 0){
+      t.textContent = "You're on the list — see you at the drop. \u2665";
+      suForm.reset();
+    } else {
+      t.textContent = "Hmm, double-check that email address.";
+    }
+  });
+}
+</script>
+</body>
+</html>

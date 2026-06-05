@@ -1,32 +1,73 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import emailjs from "@emailjs/browser";
 
 type Status = "idle" | "loading" | "success" | "error";
 
-export default function Home() {
-  const [scrollY, setScrollY] = useState(0);
-  const [open, setOpen] = useState(false);
-  const [status, setStatus] = useState<Status>("idle");
-  const [form, setForm] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    message: "",
-  });
+// ── Scroll-reveal wrapper ──────────────────────────────────────────────────
+function Reveal({
+  children,
+  delay = 0,
+  className = "",
+  style = {},
+}: {
+  children: React.ReactNode;
+  delay?: number;
+  className?: string;
+  style?: React.CSSProperties;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrollY(window.scrollY);
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) { setVisible(true); io.disconnect(); }
+      },
+      { rootMargin: "-10% 0px" }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      className={className}
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? "none" : "translateY(30px)",
+        transition: `opacity .9s cubic-bezier(.16,1,.3,1) ${delay}s, transform .9s cubic-bezier(.16,1,.3,1) ${delay}s`,
+        ...style,
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
+// ── Marquee ingredients ────────────────────────────────────────────────────
+const INGREDIENTS: [string, string][] = [
+  ["Jojoba Oil + Squalane", "nourish & soften skin"],
+  ["Shea Butter", "rich moisture & comfort"],
+  ["Glycerin + Panthenol", "attract & retain hydration"],
+  ["Ceramides", "strengthen the skin barrier"],
+];
+
+// ── Page ───────────────────────────────────────────────────────────────────
+export default function Home() {
+  const [scrolled, setScrolled] = useState(false);
+  const [status, setStatus] = useState<Status>("idle");
+  const [form, setForm] = useState({ firstName: "", lastName: "", email: "", message: "" });
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 30);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  const closeModal = () => {
-    setOpen(false);
-    setStatus("idle");
-    setForm({ firstName: "", lastName: "", email: "", message: "" });
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,13 +77,17 @@ export default function Home() {
         "service_xqz8z2d",
         "template_9kwne0t",
         {
-          from_name: `${form.firstName} ${form.lastName}`,
+          first_name: form.firstName,
+          last_name:  form.lastName,
+          from_name:  `${form.firstName} ${form.lastName}`,
           from_email: form.email,
-          message: form.message,
+          email:      form.email,
+          message:    form.message,
         },
         "h_9HXkvVv0HUqhAaz"
       );
       setStatus("success");
+      setForm({ firstName: "", lastName: "", email: "", message: "" });
     } catch {
       setStatus("error");
     }
@@ -50,452 +95,218 @@ export default function Home() {
 
   return (
     <>
-      <main
-        style={{
-          width: "100vw",
-          minHeight: "100vh",
-          display: "flex",
-          alignItems: "flex-start",
-          justifyContent: "center",
-          backgroundColor: "#dbada0",
-          overflowY: "auto",
-          paddingTop: "80px",
-          paddingBottom: "80px",
-        }}
-      >
-        <div
-          style={{
-            width: "100%",
-            paddingLeft: "48px",
-            paddingRight: "48px",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <img
-            src="/On-Repeat_Splash-Logo.svg"
-            alt="On Repeat"
-            style={{ width: "100%", maxWidth: "525px", objectFit: "contain" }}
-          />
-          <div style={{ position: "relative", width: "100%", maxWidth: "900px" }}>
-            <img
-              src="/on-repeat-splash-2.jpg"
-              alt="On Repeat Splash"
-              style={{
-                width: "100%",
-                display: "block",
-                objectFit: "contain",
-                borderBottom: "2px solid rgba(255, 255, 255, 0.25)",
-              }}
-            />
-            {/* Red — overlaps left side of hero image */}
-            <div
-              className="product-float"
-              style={{
-                left: "-75px",
-                top: "28%",
-                width: "190px",
-                zIndex: 3,
-                animationDuration: "4.8s",
-                animationDelay: "0s",
-              }}
-            >
-              <img
-                src="/red.png"
-                alt=""
-                aria-hidden="true"
-                style={{
-                  width: "100%",
-                  opacity: 0.93,
-                  transform: `translateY(${-scrollY * 0.12}px)`,
-                  willChange: "transform",
-                }}
-              />
-            </div>
-          </div>
-          <h2
-            style={{
-              marginTop: "48px",
-              fontFamily: "inherit",
-              fontSize: "1.5rem",
-              letterSpacing: "0.25em",
-              lineHeight: "1.2",
-              color: "#333333",
-              fontWeight: 500,
-              textAlign: "center",
-            }}
-          >
-            COLLECTIBLE HAND CREAMS
-          </h2>
-          <button
-            onClick={() => setOpen(true)}
-            style={{
-              marginTop: "24px",
-              backgroundColor: "#333333",
-              color: "#dbada0",
-              fontFamily: "inherit",
-              fontSize: "0.85rem",
-              letterSpacing: "0.1em",
-              fontWeight: 500,
-              border: "none",
-              borderRadius: "999px",
-              padding: "14px 32px",
-              cursor: "pointer",
-            }}
-          >
-            SIGN UP FOR DROPS
-          </button>
+      {/* ── NAV ─────────────────────────────────────────────────── */}
+      <nav className={`nav${scrolled ? " solid" : ""}`}>
+        <img
+          src="/images/logotype.png"
+          alt="On Repeat"
+          className="logo"
+          style={{ width: scrolled ? "clamp(130px,16vw,210px)" : "clamp(200px,34vw,500px)" }}
+        />
+        <a href="#signup" className="pill">Sign up for drops</a>
+      </nav>
 
-          {/* Product description */}
-          <div
-            style={{
-              width: "100%",
-              maxWidth: "900px",
-              marginTop: "64px",
-            }}
-          >
-            <h1
-              style={{
-                fontFamily: "inherit",
-                fontSize: "clamp(1.6rem, 3.5vw, 2.4rem)",
-                fontWeight: 500,
-                lineHeight: 1.2,
-                color: "#333333",
-                marginBottom: "32px",
-                letterSpacing: "-0.01em",
-              }}
-            >
-              Meet the hand cream you&apos;ll actually want to use on repeat
+      {/* ── HERO ────────────────────────────────────────────────── */}
+      <header className="hero">
+        <div>
+          <Reveal className="hero-eyebrow">
+            <img src="/images/vinyl.png" className="spin" alt="" aria-hidden="true" />
+            <span className="cap">Collectible Hand Cream</span>
+          </Reveal>
+
+          <Reveal delay={0.1}>
+            <h1>
+              The hand cream<br />
+              you&apos;ll use<br />
+              <em>on repeat.</em>
             </h1>
+          </Reveal>
 
-            <p style={bodyTextStyle}>
-              ON REPEAT Hand Cream is a fast-absorbing, deeply nourishing formula designed to soften, smooth, and restore dry hands without ever feeling greasy. Powered by a skin-loving blend of jojoba oil, squalane, shea butter, glycerin, panthenol, and ceramides, it delivers long-lasting hydration while helping support the skin barrier for healthier-looking hands over time.
+          <Reveal delay={0.2}>
+            <p className="hero-lead">
+              Like the song you can&apos;t stop playing — the hand cream you&apos;ll reach for again and again.
+              Fast-absorbing, rich, and never greasy.
             </p>
+          </Reveal>
 
-            <p style={bodyTextStyle}>
-              The texture is rich but weightless — melting seamlessly into skin for a silky, velvety finish that leaves hands feeling moisturized, not sticky. Whether tossed in your bag, kept on your nightstand, or used between meetings, workouts, flights, and coffee runs, ON REPEAT is made for everyday rituals and constant reapplication.
-            </p>
+          <Reveal delay={0.3} className="hero-note">
+            <span className="cap">Press play · Reapply · Repeat</span>
+          </Reveal>
+        </div>
 
-            <p style={bodyTextStyle}>
-              Thoughtfully formulated with effective, barrier-supporting ingredients and without the heavy feel of traditional hand creams, it&apos;s luxury hand care reimagined for modern life.
-            </p>
+        <Reveal delay={0.2} className="hero-r">
+          <div className="prod-stack">
+            <img src="/images/prod-hero-1.png" alt="On Repeat hand cream" className="prod-main" />
+            <img src="/images/prod-hero-2.png" alt="On Repeat hand cream angled view" className="prod-angle" />
+          </div>
+          <img src="/images/vinyl.png" alt="" aria-hidden="true" className="hero-badge spin" />
+        </Reveal>
+      </header>
 
-            {/* Yellow — floats right of this subhead */}
-            <div style={{ position: "relative" }}>
-              <h3 style={subheadStyle}>
-                Hydrating. Smoothing. Addictive in the best way.
-              </h3>
-              <div
-                className="product-float"
-                style={{
-                  right: "-95px",
-                  top: "-24px",
-                  width: "160px",
-                  zIndex: 1,
-                  animationDuration: "5.2s",
-                  animationDelay: "1s",
-                }}
-              >
-                <img
-                  src="/yellow.png"
-                  alt=""
-                  aria-hidden="true"
-                  style={{
-                    width: "100%",
-                    opacity: 0.9,
-                    transform: `translateY(${-scrollY * 0.09}px)`,
-                    willChange: "transform",
-                  }}
+      {/* ── INGREDIENTS TICKER ──────────────────────────────────── */}
+      <div className="marquee-section" aria-hidden="true">
+        <div className="mq">
+          {[...INGREDIENTS, ...INGREDIENTS].map(([name, desc], i) => (
+            <span key={i}>
+              {name} <i>— {desc}</i>
+              <span className="mq-dot" />
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* ── LIFESTYLE BANNER ────────────────────────────────────── */}
+      <section className="life">
+        <img
+          src="/images/lifestyle-hero.jpg"
+          alt="Golden-hour poolside party, dancing in the sun"
+          className="life-img"
+        />
+        <div className="scrim" />
+        <div className="life-copy">
+          <Reveal>
+            <span className="cap">Sun&apos;s out</span>
+            <h2>Made for all your moments.</h2>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── STATEMENT ───────────────────────────────────────────── */}
+      <section className="stmt">
+        <div className="stmt-grid">
+          <div>
+            <Reveal>
+              <h2>Rich, but <span className="u">weightless.</span></h2>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <p>
+                It melts in and disappears — silky finish, never greasy. Tossed in a bag or
+                left on the nightstand, it&apos;s the one on heavy rotation.
+              </p>
+            </Reveal>
+          </div>
+          <Reveal delay={0.1} className="stmt-r">
+            <img src="/images/prod-4.jpg" alt="On Repeat tucked into a bag, in the wild" />
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── GALLERY ─────────────────────────────────────────────── */}
+      <section className="gallery">
+        <div className="gal-head">
+          <Reveal><h2>In the wild.</h2></Reveal>
+          <Reveal delay={0.1}><span className="cap">Palm-sized</span></Reveal>
+        </div>
+        <div className="gal-grid">
+          <Reveal className="g-a">
+            <figure><img src="/images/prod-3.jpg" alt="Held in hand against river rocks" /></figure>
+          </Reveal>
+          <Reveal delay={0.1} className="g-b">
+            <figure><img src="/images/prod-1.jpg" alt="On Repeat on a wood board" /></figure>
+          </Reveal>
+          <Reveal className="g-c">
+            <figure><img src="/images/prod-2.jpg" alt="Top view of On Repeat" /></figure>
+          </Reveal>
+          <Reveal delay={0.1} className="g-d">
+            <figure><img src="/images/prod-0.jpg" alt="Held against the sky" /></figure>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── FOUR VIBES ──────────────────────────────────────────── */}
+      <section className="shades">
+        <Reveal><h2>FOUR<br />VIBES.</h2></Reveal>
+        <Reveal delay={0.1}>
+          <p className="sub">One little record, four covers. Pick your mood.</p>
+        </Reveal>
+        <Reveal delay={0.1} className="shades-img">
+          <img src="/images/all-products.png" alt="On Repeat in coral, mint, butter and cloud" />
+        </Reveal>
+        <Reveal delay={0.2} className="shade-names">
+          <div><span className="dot" style={{ background: "#F47D6E" }} />Coral</div>
+          <div><span className="dot" style={{ background: "#7FD2C4" }} />Mint</div>
+          <div><span className="dot" style={{ background: "#EDE08A" }} />Sunset</div>
+          <div>
+            <span className="dot" style={{ background: "#EDEAE3", outline: "1px solid rgba(33,27,23,.18)" }} />
+            Cloud
+          </div>
+        </Reveal>
+      </section>
+
+      {/* ── SIGN UP ─────────────────────────────────────────────── */}
+      <section className="signup" id="signup">
+        <Reveal>
+          <h2>Get on the <em>list.</em></h2>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <p className="sub">Be first to know when On Repeat drops. No spam — just the good stuff.</p>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <form className="su-form" onSubmit={handleSubmit} noValidate>
+            <div className="su-row">
+              <div className="su-line">
+                <input
+                  type="text"
+                  placeholder="First name"
+                  required
+                  value={form.firstName}
+                  onChange={(e) => setForm({ ...form, firstName: e.target.value })}
+                />
+              </div>
+              <div className="su-line">
+                <input
+                  type="text"
+                  placeholder="Last name"
+                  required
+                  value={form.lastName}
+                  onChange={(e) => setForm({ ...form, lastName: e.target.value })}
                 />
               </div>
             </div>
-
-            <div style={{ marginBottom: "40px" }}>
-              <p
-                style={{
-                  fontFamily: "inherit",
-                  fontSize: "0.7rem",
-                  fontWeight: 500,
-                  letterSpacing: "0.2em",
-                  color: "#333333",
-                  marginBottom: "16px",
-                  textTransform: "uppercase",
-                }}
-              >
-                Key Ingredients
-              </p>
-              <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: "10px" }}>
-                {[
-                  "Jojoba Oil + Squalane — help nourish and soften skin",
-                  "Shea Butter — delivers rich moisture and comfort",
-                  "Glycerin + Panthenol — attract and retain hydration",
-                  "Ceramides — help support and strengthen the skin barrier",
-                ].map((item) => (
-                  <li
-                    key={item}
-                    style={{
-                      fontFamily: "inherit",
-                      fontSize: "clamp(0.9rem, 1.5vw, 1rem)",
-                      lineHeight: 1.6,
-                      color: "#333333",
-                      paddingLeft: "20px",
-                      position: "relative",
-                    }}
-                  >
-                    <span style={{ position: "absolute", left: 0 }}>•</span>
-                    {item}
-                  </li>
-                ))}
-              </ul>
+            <div className="su-line">
+              <input
+                type="email"
+                placeholder="Email address"
+                required
+                value={form.email}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
+              />
             </div>
+            <div className="su-line">
+              <textarea
+                placeholder="Your message (optional)"
+                rows={3}
+                value={form.message}
+                onChange={(e) => setForm({ ...form, message: e.target.value })}
+              />
+            </div>
+            <div style={{ marginTop: 6, textAlign: "center" }}>
+              {status === "success" ? (
+                <p className="su-msg">You&apos;re on the list — see you at the drop. ♥</p>
+              ) : (
+                <>
+                  <button type="submit" className="su-submit" disabled={status === "loading"}>
+                    {status === "loading" ? "Sending…" : "Notify me"} <span>↗</span>
+                  </button>
+                  {status === "error" && (
+                    <p className="su-msg error">Something went wrong. Please try again.</p>
+                  )}
+                </>
+              )}
+            </div>
+          </form>
+        </Reveal>
+      </section>
 
-            <h3 style={subheadStyle}>
-              For hands that deserve better than basic.
-            </h3>
-          </div>
+      {/* ── FOOTER ──────────────────────────────────────────────── */}
+      <footer className="site-footer">
+        <img src="/images/vinyl.png" alt="" aria-hidden="true" className="fv spin" />
+        <img src="/images/logotype.png" alt="On Repeat" className="fwm" />
+        <div className="tag">Hand cream you&apos;ll use on repeat.</div>
+        <div className="meta">
+          <span>©2026 On Repeat Beauty, Inc. All Rights Reserved.</span>
         </div>
-      </main>
-
-      {open && (
-        <div
-          onClick={closeModal}
-          style={{
-            position: "fixed",
-            inset: 0,
-            backgroundColor: "transparent",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            zIndex: 100,
-            padding: "24px",
-          }}
-        >
-          <div
-            onClick={(e) => e.stopPropagation()}
-            style={{
-              backgroundColor: "rgba(255, 255, 255, 0.4)",
-              backdropFilter: "blur(5px)",
-              WebkitBackdropFilter: "blur(5px)",
-              borderRadius: "16px",
-              padding: "48px",
-              width: "100%",
-              maxWidth: "520px",
-              position: "relative",
-            }}
-          >
-            <button
-              onClick={closeModal}
-              style={{
-                position: "absolute",
-                top: "20px",
-                right: "24px",
-                background: "none",
-                border: "none",
-                fontSize: "1.4rem",
-                color: "#333",
-                cursor: "pointer",
-                lineHeight: 1,
-              }}
-            >
-              ✕
-            </button>
-
-            {status === "success" ? (
-              <div
-                style={{
-                  textAlign: "center",
-                  fontFamily: "inherit",
-                  color: "#333",
-                  padding: "24px 0",
-                }}
-              >
-                <p style={{ fontSize: "1.5rem", fontWeight: 500, letterSpacing: "0.1em", marginBottom: "12px" }}>
-                  YOU&apos;RE ON THE LIST
-                </p>
-                <p style={{ fontSize: "0.95rem", color: "#666" }}>
-                  We&apos;ll be in touch when the drop lands.
-                </p>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
-                <p
-                  style={{
-                    fontFamily: "inherit",
-                    fontSize: "0.75rem",
-                    letterSpacing: "0.2em",
-                    color: "#333",
-                    fontWeight: 500,
-                    marginBottom: "8px",
-                  }}
-                >
-                  SIGN UP FOR DROPS
-                </p>
-
-                <div style={{ display: "flex", gap: "16px" }}>
-                  <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: "6px" }}>
-                    <label style={labelStyle} htmlFor="first_2">First Name *</label>
-                    <input
-                      id="first_2"
-                      type="text"
-                      required
-                      value={form.firstName}
-                      onChange={(e) => setForm({ ...form, firstName: e.target.value })}
-                      style={inputStyle}
-                    />
-                  </div>
-                  <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: "6px" }}>
-                    <label style={labelStyle} htmlFor="last_2">Last Name *</label>
-                    <input
-                      id="last_2"
-                      type="text"
-                      required
-                      value={form.lastName}
-                      onChange={(e) => setForm({ ...form, lastName: e.target.value })}
-                      style={inputStyle}
-                    />
-                  </div>
-                </div>
-
-                <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-                  <label style={labelStyle} htmlFor="input_3">Email Address *</label>
-                  <input
-                    id="input_3"
-                    type="email"
-                    required
-                    placeholder="example@example.com"
-                    value={form.email}
-                    onChange={(e) => setForm({ ...form, email: e.target.value })}
-                    style={inputStyle}
-                  />
-                </div>
-
-                <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-                  <label style={labelStyle} htmlFor="input_4">Your Message *</label>
-                  <textarea
-                    id="input_4"
-                    required
-                    value={form.message}
-                    onChange={(e) => setForm({ ...form, message: e.target.value })}
-                    style={{ ...inputStyle, height: "120px", resize: "vertical" }}
-                  />
-                </div>
-
-                {status === "error" && (
-                  <p style={{ fontFamily: "inherit", fontSize: "0.8rem", color: "#c00" }}>
-                    Something went wrong. Please try again.
-                  </p>
-                )}
-
-                <button
-                  type="submit"
-                  disabled={status === "loading"}
-                  style={{
-                    backgroundColor: "#333",
-                    color: "#dbada0",
-                    fontFamily: "inherit",
-                    fontSize: "0.85rem",
-                    letterSpacing: "0.1em",
-                    fontWeight: 500,
-                    border: "none",
-                    borderRadius: "999px",
-                    padding: "14px 32px",
-                    cursor: status === "loading" ? "not-allowed" : "pointer",
-                    opacity: status === "loading" ? 0.6 : 1,
-                    alignSelf: "center",
-                  }}
-                >
-                  {status === "loading" ? "SUBMITTING..." : "SUBMIT"}
-                </button>
-              </form>
-            )}
-          </div>
-        </div>
-      )}
-
-      {/* Blue — fixed to right edge, partially cropped */}
-      <div
-        className="product-float"
-        style={{
-          position: "fixed",
-          right: "-52px",
-          top: "56%",
-          width: "138px",
-          zIndex: 2,
-          animationDuration: "4.2s",
-          animationDelay: "0.5s",
-        }}
-      >
-        <img
-          src="/blue.png"
-          alt=""
-          aria-hidden="true"
-          style={{
-            width: "100%",
-            opacity: 0.88,
-            transform: `translateY(${-scrollY * 0.07}px)`,
-            willChange: "transform",
-          }}
-        />
-      </div>
-
-      <footer
-        style={{
-          width: "100%",
-          padding: "24px 48px",
-          textAlign: "center",
-          backgroundColor: "#dbada0",
-        }}
-      >
-        <p
-          style={{
-            fontFamily: "inherit",
-            fontSize: "0.7rem",
-            letterSpacing: "0.08em",
-            color: "#333333",
-            opacity: 0.6,
-          }}
-        >
-          &copy;2026 On Repeat Beauty, Inc. All Rights Reserved.
-        </p>
       </footer>
     </>
   );
 }
-
-const labelStyle: React.CSSProperties = {
-  fontFamily: "inherit",
-  fontSize: "0.75rem",
-  letterSpacing: "0.05em",
-  color: "#555",
-  fontWeight: 500,
-};
-
-const inputStyle: React.CSSProperties = {
-  fontFamily: "inherit",
-  fontSize: "0.9rem",
-  color: "#333",
-  border: "1px solid #ddd",
-  borderRadius: "8px",
-  padding: "10px 14px",
-  outline: "none",
-  width: "100%",
-};
-
-const bodyTextStyle: React.CSSProperties = {
-  fontFamily: "inherit",
-  fontSize: "clamp(0.95rem, 1.5vw, 1.05rem)",
-  lineHeight: 1.75,
-  color: "#333333",
-  marginBottom: "24px",
-};
-
-const subheadStyle: React.CSSProperties = {
-  fontFamily: "inherit",
-  fontSize: "clamp(1rem, 2vw, 1.2rem)",
-  fontWeight: 500,
-  color: "#333333",
-  marginBottom: "32px",
-  marginTop: "8px",
-  letterSpacing: "0.02em",
-};
